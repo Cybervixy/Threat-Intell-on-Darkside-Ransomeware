@@ -1,0 +1,72 @@
+# python script for detecting malicious Hash
+
+```python
+ 
+import requests 
+import time 
+ 
+API_KEY = "API-key"  
+hashes = [ 
+ 
+"9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f51c6",   
+"3d8c9a2b6e7d1f0a5c3b9e8d7f6a2c9b4e3d1f5a7c6e0b9d2f4a3c1e8b7d62f5",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447941f21646ca0090673",   
+"6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b47e8",   
+"0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d26a4",   
+"2f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b06f2e4",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447946f21646ca0090673",   
+"7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b05d6",   
+"5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f13d7",   
+"6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e35f1",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447948f21646ca0090673",   
+"8d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b40e3",   
+"1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e97c5",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447943f21646ca0090673",   
+"5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f28a9",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447945f21646ca0090673",   
+"9e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c42d8",   
+"0a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d12f6",  
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447940f21646ca0090673", 
+"6c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f51b9",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447947f21646ca0090673",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447944f21646ca0090673",   
+"7a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d72e5",   
+"1d5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e94a7",   
+"5e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c34c8",   
+"1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e93a7",   
+"156335b95ba216456f1ac0894b7b9d6ad95404ac7df447942f21646ca0090673",   
+"9b2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c58d3",   
+"7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b05d6",   
+"6c6d7e8a3f1c5b9d2e0f4a7c3b6e8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f20f4",   
+"5b8d1f2a5c9b0d7e3f6a2c4b8e9d1f5a9f2b4c6d7e8a3f1c5b9d2e0f4a7c13e9"   
+] 
+
+for index, file_hash in enumerate(hashes):
+    url = f"https://www.virustotal.com/api/v3/files/{file_hash}"
+    headers = {"x-apikey": API_KEY}
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    if "data" in data and "attributes" in data["data"]:
+        stats = data["data"]["attributes"]["last_analysis_stats"]
+        vendors = data["data"]["attributes"].get("last_analysis_results", {})
+
+        if stats["malicious"] > 0:
+            detected_by = []
+            for vendor, result in vendors.items():
+                if result["category"] == "malicious":
+                    detected_by.append(f"{vendor}: {result['result']}")
+
+            print(f"⚠ {file_hash} is flagged as malicious by:")
+            for detection in detected_by:
+                print(f"   - {detection}")
+
+        else:
+            print(f"✅ {file_hash} appears clean.")
+
+    if (index + 1) % 4 == 0:
+        print("⏳ Waiting for 60 seconds to stay within API rate limit...")
+        time.sleep(60)
+
+```
