@@ -133,7 +133,7 @@ The lab was conducted in the following steps:
 
 in the figure below.
 
-![](https://www.sisainfosec.com/wp-content/uploads/2017/08/darkside-ransomware-attack-lifecycle.png)
+![](https://github.com/Cybervixy/Threat-Intell-on-Darkside-Ransomeware/blob/889dbc61fc4075a1c26c48fd307815e436082b8b/fireyee%20darkside.png)
 
 *Image source: https://www.fireeye.com/content/dam/fireeye-www/blog/images/darkside/fig3b.png*
 
