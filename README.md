@@ -67,7 +67,7 @@ The lab was conducted in the following steps:
 1. **Create Python Script**:
     - Developed a Python script (`check_hashes.py`) to automate the analysis of 50 SHA-256 hash values using the VirusTotal API.
     
-    [python script for detecting malicious Hash](python%20script%20for%20detecting%20malicious%20Hash%201c35f18a0bc98115804fc478ab0b9e37.md)
+    [python script for detecting malicious Hash](https://github.com/Cybervixy/Threat-Intell-on-Darkside-Ransomeware/blame/74f76ab549fc7d5509e65c81e3148de881bbca65/python%20script%20for%20detecting%20malicious%20Hash)
     
 2. **Run the Script**:
     - Executed the script to identify the malicious hash and extract relevant details from VirusTotal's response.
